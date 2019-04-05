@@ -1,0 +1,34 @@
+package com.company.tem.config;
+
+import com.github.pagehelper.PageHelper;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.util.Properties;
+
+/**
+ * @Author: yuandh
+ * @Description: 配置分页
+ * @Date: Created in 10:50 2019/4/3
+ * @Modified By:
+ */
+@Configuration
+public class PageHelperConfiglication {
+
+    /**
+     * 配置分页
+     * @return
+     */
+    @Bean
+    public PageHelper pageHelper(){
+        PageHelper pageHelper = new PageHelper();
+        Properties properties = new Properties();
+        properties.setProperty("offsetAsPageNum","true");
+        properties.setProperty("rowBoundsWithCount","true");
+        properties.setProperty("reasonable","true");
+        properties.setProperty("dialect","mysql");    //配置mysql数据库的方言
+        pageHelper.setProperties(properties);
+        return pageHelper;
+    }
+
+}

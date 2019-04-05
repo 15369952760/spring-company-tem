@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.company.tem.security.mapper.UserEntityMapper" >
+  <resultMap id="BaseResultMap" type="com.company.tem.security.entity.UserEntity" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="VARCHAR" />
+    <result column="id_cord" property="idCord" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, username, password, name, age, id_cord, address, status, create_time, update_time
+  </sql>
+
+  <select id="selectSelective" resultMap="BaseResultMap" parameterType="com.company.tem.security.entity.UserEntity" >
+    select
+    <include refid="Base_Column_List" />
+    from
+      family_user
+    where
+    1=1
+    <if test="id != null and id != ''" >
+      and
+      id = #{id}
+    </if>
+    <if test="username != null and username != ''" >
+      and
+      username = #{username}
+    </if>
+    <if test="password != null and password != ''" >
+      and
+      password = #{password}
+    </if>
+    <if test="name != null and name != ''" >
+      and
+      name = #{name}
+    </if>
+    <if test="age != null and age != ''" >
+      and
+      age = #{age}
+    </if>
+    <if test="idCord != null and idCord != ''" >
+      and
+      id_cord = #{idCord}
+    </if>
+    <if test="address != null and address != ''" >
+      and
+      address = #{address}
+    </if>
+    <if test="status != null and status != ''" >
+      and
+      status = #{status}
+    </if>
+  </select>
+
+  <select id="selectEntityByData" resultMap="BaseResultMap" parameterType="com.company.tem.security.entity.UserEntity" >
+    select
+      <include refid="Base_Column_List" />
+    from
+      family_user
+    where
+      1=1
+      <if test="id != null and id != ''" >
+        and
+        id = #{id}
+      </if>
+      <if test="username != null and username != ''" >
+        and
+        username = #{username}
+      </if>
+      <if test="password != null and password != ''" >
+        and
+        password = #{password}
+      </if>
+      <if test="name != null and name != ''" >
+        and
+        name = #{name}
+      </if>
+      <if test="age != null and age != ''" >
+        and
+        age = #{age}
+      </if>
+      <if test="idCord != null and idCord != ''" >
+        and
+        id_cord = #{idCord}
+      </if>
+      <if test="address != null and address != ''" >
+        and
+        address = #{address}
+      </if>
+      <if test="status != null and status != ''" >
+        and
+        status = #{status}
+      </if>
+
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from family_user
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from family_user
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from family_user
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.company.tem.security.entity.UserEntity" >
+    insert into family_user (id, username, password,
+      name, age, id_cord,
+      address, status, create_time,
+      update_time)
+    values (#{id,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+      #{name,jdbcType=VARCHAR}, #{age,jdbcType=VARCHAR}, #{idCord,jdbcType=VARCHAR},
+      #{address,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR},
+      #{updateTime,jdbcType=VARCHAR})
+  </insert>
+
+  <!-- 通过用户ID查询所有菜单信息 -->
+  <select id="selectMenuListByUserId" parameterType="java.lang.String" resultType="com.company.tem.security.entity.MenuEntity">
+    select
+      id as id,
+      name as name,
+      code as code,
+      level as level,
+      orderno as orderno,
+      is_parent as isParent,
+      parent_id as parentId,
+      create_time as createTime,
+      update_time as updateTime
+    from
+      family_menu t2
+    where
+      t2.id in (select t.menu_id from family_menu_user t where t.user_id = #{id})
+  </select>
+
+  <!-- 通过用户ID查询所有角色信息 -->
+  <select id="selectRoleListByUserId" parameterType="java.lang.String" resultType="com.company.tem.security.entity.RoleEntity">
+    select
+      id as id,
+      name as name,
+      info as info,
+      create_time as createTime,
+      update_time as updateTime
+    from
+      family_role t2
+    where
+      t2.id in (select t.role_id from family_user_role t where t.user_id = #{id})
+  </select>
+  <!-- 通过用户字段条件查询用户数据 -->
+  <insert id="insertSelective" parameterType="com.company.tem.security.entity.UserEntity" >
+    insert into family_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="idCord != null" >
+        id_cord,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=VARCHAR},
+      </if>
+      <if test="idCord != null" >
+        #{idCord,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.company.tem.security.entity.UserEntity" >
+    update family_user
+    <set >
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=VARCHAR},
+      </if>
+      <if test="idCord != null" >
+        id_cord = #{idCord,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.company.tem.security.entity.UserEntity" >
+    update family_user
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      age = #{age,jdbcType=VARCHAR},
+      id_cord = #{idCord,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
