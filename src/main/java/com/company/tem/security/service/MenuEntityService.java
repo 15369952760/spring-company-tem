@@ -2,6 +2,8 @@ package com.company.tem.security.service;
 
 import com.company.tem.security.entity.MenuEntity;
 
+import java.util.List;
+
 /**
  * @Author: yuandh
  * @Description:
@@ -21,5 +23,9 @@ public interface MenuEntityService {
     int updateByPrimaryKeySelective(MenuEntity record);
 
     int updateByPrimaryKey(MenuEntity record);
+
+    List<MenuEntity> selectAll();
+
+    List<MenuEntity> selectBySelective(MenuEntity record);
 
 }

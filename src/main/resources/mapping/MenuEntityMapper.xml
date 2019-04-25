@@ -15,8 +15,37 @@
   <sql id="Base_Column_List" >
     id, name, code, level, orderno, is_parent, parent_id, create_time, update_time
   </sql>
+  <select id="selectBySelective" resultMap="BaseResultMap" parameterType="com.company.tem.security.entity.MenuEntity" >
+    select
+      <include refid="Base_Column_List" />
+    from
+      family_menu
+    where
+      1=1
+    <if test="id != null and id != ''" >
+      and id = #{id}
+    </if>
+    <if test="name != null and name != ''" >
+      and name = #{name}
+    </if>
+    <if test="code != null and code != ''" >
+      and code = #{code}
+    </if>
+    <if test="level != null and level != ''" >
+      and level = #{level}
+    </if>
+    <if test="orderno != null and orderno != ''" >
+      and orderno = #{orderno}
+    </if>
+    <if test="isParent != null and isParent != ''" >
+      and is_parent = #{isParent}
+    </if>
+    <if test="parentId != null and parentId != ''" >
+      and parent_id = #{parentId}
+    </if>
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from family_menu
     where id = #{id,jdbcType=VARCHAR}
@@ -26,12 +55,12 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.company.tem.security.entity.MenuEntity" >
-    insert into family_menu (id, name, code, 
-      level, orderno, is_parent, 
+    insert into family_menu (id, name, code,
+      level, orderno, is_parent,
       parent_id, create_time, update_time
       )
-    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
-      #{level,jdbcType=INTEGER}, #{orderno,jdbcType=INTEGER}, #{isParent,jdbcType=BIT}, 
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR},
+      #{level,jdbcType=INTEGER}, #{orderno,jdbcType=INTEGER}, #{isParent,jdbcType=BIT},
       #{parentId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>

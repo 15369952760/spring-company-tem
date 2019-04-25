@@ -6,6 +6,8 @@ import com.company.tem.security.service.MenuEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @Author: yuandh
  * @Description:
@@ -46,5 +48,15 @@ public class MenuEntityServiceImpl implements MenuEntityService {
     @Override
     public int updateByPrimaryKey(MenuEntity record) {
         return menuEntityMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public List<MenuEntity> selectAll() {
+        return menuEntityMapper.selectBySelective(new MenuEntity());
+    }
+
+    @Override
+    public List<MenuEntity> selectBySelective(MenuEntity record) {
+        return menuEntityMapper.selectBySelective(record);
     }
 }

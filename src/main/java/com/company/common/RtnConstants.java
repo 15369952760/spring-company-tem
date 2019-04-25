@@ -14,4 +14,13 @@ public class RtnConstants {
     public final static String RTN_STATUS_SUCCESS = "OK";
     public final static String RTN_STATUS_ERROR = "ERROR";
 
+    public final static String RTN_INSERT_SUCCESS = "保存成功";
+    public final static String RTN_INSERT_ERROR = "保存失败";
+
+    public final static String RTN_UPDATE_SUCCESS = "编辑成功";
+    public final static String RTN_UPDATE_ERROR = "编辑失败";
+
+    public final static String RTN_DELETE_SUCCESS = "删除成功";
+    public final static String RTN_DELETE_ERROR = "删除失败";
+
 }
